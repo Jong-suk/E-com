@@ -29,7 +29,7 @@ const products = [
     category: 'Fruit',
     price: 50.99,
     countInStock: 5,
-    rating: 3,
+    rating: 4,
     numReviews: 12,
   },
   {
@@ -51,7 +51,7 @@ const products = [
     category: 'Fruit',
     price: 25.99,
     countInStock: 7,
-    rating: 3.5,
+    rating: 4.5,
     numReviews: 10,
   },
   {
