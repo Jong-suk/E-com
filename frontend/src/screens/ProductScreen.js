@@ -1,18 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import Rating from './../components/Rating';
-import products from './../products';
+import axios from 'axios';
 
 const ProductScreen = () => {
+  /**
+    const product = products.find((p) => p._id === params.id);
+  */
   const params = useParams();
-  const product = products.find((p) => p._id === params.id);
+  const [product, setProduct] = useState({})
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${params.id}`)
+      setProduct(data)
+    }
+    fetchProduct()
+  }, [])
+
   return (
   <>
     <Link className='btn btn-success my-3' to='/'> Go Back </Link>
     <Row>
       <Col md={5}>
-        <Image src={product.image} alt={product.name} className='mx-5' fluid />
+        <Image src={product.image} alt={product.name} fluid />
       </Col>
       <Col md={3}>
         <ListGroup variant='flush'>
@@ -31,7 +43,7 @@ const ProductScreen = () => {
           </ListGroup.Item>
         </ListGroup>
       </Col>
-      <Col md={3} className='mx-5'>
+      <Col md={3}>
         <Card>
           <ListGroup variant='flush'>
             <ListGroup.Item>
