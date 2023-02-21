@@ -5,9 +5,9 @@ import { Container, Navbar, Nav } from 'react-bootstrap'
 const Header = () => {
   return (
     <header>
-        <Navbar bg="success" variant='dark' expand="lg" collapseOnSelect>
+        <Navbar style={{background: '#27ae60'}} variant='dark' expand="lg" collapseOnSelect>
             <Container>
-              <LinkContainer to='/'>
+            <LinkContainer style={{ fontSize: '37px'}} to='/'>
                 <Navbar.Brand>Seed The Rise</Navbar.Brand>
               </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
