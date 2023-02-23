@@ -33,7 +33,7 @@ const ProductScreen = () => {
     {loading ? <Loader /> : error ? <Message variant='danger'>Error</Message> : (
       <Row>
       <Col md={5}>
-        <Image src={product.image} alt={product.name} fluid />
+        <Image src={product.image} alt={product.name} fluid rounded />
       </Col>
       <Col md={3}>
         <ListGroup variant='flush'>
