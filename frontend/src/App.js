@@ -9,20 +9,34 @@ import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import FarmerScreen from './screens/FarmerScreen'
+import FarmerProfileScreen from './screens/FarmerProfileScreen'
+import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import SubHeader from './components/SubHeader'
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 
 const App = () => {
   return (
     <Router>
       <Header />
+      <SubHeader />
+      
       <main className='py-3'>
         <Container>
           <Routes>
             <Route path='/' element={<HomeScreen />} exact />
             <Route path='/product/:id' element={<ProductScreen />} />
+            <Route path='/farmer/:id' element={<FarmerProfileScreen />} />
+            <Route path='/farmers' element={<FarmerScreen />} />
             <Route path='/cart/:id?' element={<CartScreen />} />
             <Route path='/login' element={<LoginScreen />} />
             <Route path='/register' element={<RegisterScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
+            <Route path='/shipping' element={<ShippingScreen />} />
+            <Route path='/payment' element={<PaymentScreen />} />
+            <Route path='/placeorder' element={<PlaceOrderScreen />} />
+
           </Routes>
         </Container>
       </main>

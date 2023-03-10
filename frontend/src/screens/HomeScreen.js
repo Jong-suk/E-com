@@ -1,4 +1,5 @@
 import React, {  useEffect } from 'react'
+import styles from '../Component.module.css'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
@@ -20,7 +21,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Latest Products</h1>
+      <h2 className={styles.heading}>Latest Products</h2>
       {loading ? (
         <Loader> Loading.... </Loader>
       ) : error ? (

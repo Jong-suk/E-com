@@ -1,0 +1,115 @@
+:root{
+--green:#27ae60;
+--black:#2c2c54;
+}
+
+*{
+margin:0; padding:0;
+box-sizing: border-box;
+outline: none; border:none;
+text-decoration: none;
+text-transform: capitalize;
+transition: all .2s linear;
+}
+
+*::selection{
+background:var(--green);
+color:#fff;
+}
+
+html{
+font-size: 62.5%;
+overflow-x: hidden;
+scroll-padding-top: 6.5rem;
+scroll-behavior: smooth;
+}
+
+.btn{
+display: inline-block;
+margin-top: 1rem;
+background:var(--green);
+color:#fff;
+padding:.8rem 3rem;
+text-align: center;
+cursor: pointer;
+border-radius: .5rem;
+}
+
+.btn:hover{
+background:var(--black);
+}
+
+.heading{
+text-align: center;
+color:var(--black);
+text-transform: uppercase;
+padding:1rem;
+font-size: 3.5rem;
+padding-bottom: 2rem;
+}
+
+.heading span{
+color:var(--green);
+text-transform: uppercase;
+}
+
+.header1{
+background:#eee;
+text-transform: uppercase;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding:2rem 9%;
+}
+
+.logo{
+text-transform: uppercase;
+color:var(--black);
+font-weight: bolder;
+font-size: 3rem;
+}
+
+.logo i{
+padding-right: .5rem;
+color:var(--green);
+}
+
+.header2{
+text-transform: uppercase;
+background:#fff;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding:2rem 9%;
+box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+position: relative;
+}
+
+.header2 .active{
+position: fixed;
+top:0; left: 0; right:0;
+z-index: 10000;
+}
+
+.user {
+    display: flex;
+    margin-left: 20px;
+    font-size: 2rem;
+    border-radius: .5rem;
+    color: #2c2c54;
+}
+
+.user:hover{
+    background:var(--green);
+    color: #fff;
+}
+
+.icons a{
+    font-size: 2.5rem;
+    color:var(--black);
+    padding-left: 1rem;
+  }
+  
+.icons a:hover{
+    color:var(--green);
+  }

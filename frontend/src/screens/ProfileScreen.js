@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import styles from '../Component.module.css'
 import { useNavigate } from 'react-router-dom'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -58,37 +59,37 @@ const ProfileScreen = () => {
   return (
     <Row>
         <Col md={4}>
-            <h2 style={{color: '#27ae60', fontWeight: 'bold', fontSize: '28px'}}>User Profile</h2>
+            <h2 className={styles.heading}>User Profile</h2>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
             {success && <Message variant='success'>Profile Successfully Updated</Message>}
             {loading && <Loader />}
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={submitHandler} style={{ fontSize: '1.8rem' }}>
                 <Form.Group controlId='name'>
-                <Form.Label className='my-1' style={{ fontWeight: 'bold'}}>Name</Form.Label>
-                <Form.Control type='text' style={{ borderWidth: 2 }} placeholder='Enter your name' value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
+                <Form.Label className='my-1' style={{ fontWeight: 'bold' }}>Name</Form.Label>
+                <Form.Control type='text' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Enter your name' value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='email'>
-                <Form.Label className='my-3' style={{ fontWeight: 'bold'}}>Email Address</Form.Label>
-                <Form.Control type='email' style={{ borderWidth: 2 }} placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
+                <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Email Address</Form.Label>
+                <Form.Control type='email' style={{ borderWidth: 2, textTransform: 'lowercase', fontSize: '1.8rem' }} placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='password'>
-                <Form.Label className='my-3' style={{ fontWeight: 'bold'}}>Password</Form.Label>
-                <Form.Control type='password' style={{ borderWidth: 2 }} placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+                <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Password</Form.Label>
+                <Form.Control type='password' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='confirmPassword'>
-                <Form.Label className='my-3' style={{ fontWeight: 'bold'}}>Confirm Password</Form.Label>
-                <Form.Control type='password' style={{ borderWidth: 2 }} placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
+                <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Confirm Password</Form.Label>
+                <Form.Control type='password' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                 </Form.Group>
 
-                <Button type='submit' className='my-3' style={{background: '#27ae60'}} variant='dark'>Update</Button>
+                <Button type='submit' className={styles.btn} style={{fontSize: '1.6rem'}} variant='dark'>Update</Button>
             </Form>
         </Col>
-        <Col md={7}>
-            <h2>My Orders</h2>
+        <Col md={8}>
+            <h2 className={styles.heading}>My Orders</h2>
         </Col>
     </Row>
   )

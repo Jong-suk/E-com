@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, Container } from 'react-bootstrap'
 import Rating from './Rating'
 
-const Product = ({product}) => {
+const Farmer = ({farmer}) => {
   return (
     <Container className='px-4' style={{display: 'flex', flexWrap: 'wrap', gap: '1.5rem'}}>
       <Card className='my-3 p-3 rounded' style={{
@@ -15,22 +15,24 @@ const Product = ({product}) => {
         overflow: 'hidden',
         position: 'relative'
         }}> 
-        <Link to={`/product/${product._id}`}>
-          <Card.Img src={product.image} variant='top' className='rounded' style={{ height: '20rem', width: '25rem'}}/> 
+        <Link to={`/farmer/${farmer._id}`}>
+          <Card.Img src={farmer.image} variant='top' className='rounded' style={{ height: '20rem', width: '25rem'}}/> 
         </Link>
 
         <Card.Body>
-          <Link to={`/product/${product._id}`}>
-              <Card.Title as='h3' style={{textTransform: 'uppercase'}}><strong>{product.name}</strong></Card.Title> 
+          <Link to={`/farmer/${farmer._id}`}>
+              <Card.Title as='h3' style={{textTransform: 'uppercase'}}><strong>{farmer.name}</strong></Card.Title> 
           </Link>
+          
+          <Card.Text as='h3' style={{textTransform: 'lowercase', fontSize: '1.6rem'}}>
+              <>{farmer.email}</>    
+          </Card.Text>
+          
           <Card.Text as='div' style={{fontSize: '1.2rem'}}>
               <Rating 
-                  value={product.rating} 
-                  text={`${product.numReviews} reviews`}
+                  value={farmer.rating} 
+                  text={`${farmer.numReviews} reviews`}
                   />
-          </Card.Text>
-          <Card.Text as='h3'>
-                <bold>Price: ₹{product.price}</bold> 
           </Card.Text>
         </Card.Body>
       </Card>
@@ -38,4 +40,4 @@ const Product = ({product}) => {
   )
 }
 
-export default Product
+export default Farmer
