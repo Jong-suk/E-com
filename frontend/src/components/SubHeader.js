@@ -57,8 +57,13 @@ const SubHeader = () => {
                         </LinkContainer>
                     </NavLink>
                     <NavLink>
+                        <LinkContainer to='/products'>
+                        <Nav.Link>Products</Nav.Link> 
+                        </LinkContainer>
+                    </NavLink>
+                    <NavLink>
                         <LinkContainer to='/farmers'>
-                            <Nav.Link>Farmer List</Nav.Link>
+                            <Nav.Link>Farmers</Nav.Link>
                         </LinkContainer>
                     </NavLink>
                     <NavLink>
@@ -95,6 +100,25 @@ const SubHeader = () => {
                                 </LinkContainer>
                             </NavLink>
                         }
+                        {userInfo && userInfo.isAdmin && (
+                            <NavDropdown title='Admin' className={styles.user} id='adminmenu'>
+                                <NavLin>
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavLin>
+                                <NavLin>
+                                    <LinkContainer to='/admin/productlist'>
+                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavLin>
+                                <NavLin>
+                                    <LinkContainer to='/admin/orderlist'>
+                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavLin>
+                            </NavDropdown>
+                        )}
                 </Nav>
             </Navbar.Collapse>
           </Container>

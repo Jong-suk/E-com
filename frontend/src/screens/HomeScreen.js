@@ -1,42 +1,28 @@
-import React, {  useEffect } from 'react'
+import React from 'react'
 import styles from '../Component.module.css'
-import { Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../actions/productActions'
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const HomeScreen = () => {
-  const dispatch = useDispatch()
 
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+    const navigate = useNavigate()
 
-  useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
-
-
-
+    const GSHandler = () => {
+        navigate('/login?redirect=/products')
+    }
   return (
-    <>
-      <h2 className={styles.heading}>Latest Products</h2>
-      {loading ? (
-        <Loader> Loading.... </Loader>
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-          <Row>
-            {products &&
-            products.map(product => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3} >
-                    <Product product={product} />
-                </Col>
-            ))}
-          </Row>
-      )}
-    </>
+    <section className={styles.home} >
+        <div className={styles.image}>
+            <img style={{ height: '50rem', width: '60rem', paddingLeft : '5rem' }} src={process.env.PUBLIC_URL + '/images/home-img.jpg'} alt='' ></img>
+        </div>
+        <div className={styles.content} style={{paddingLeft: '5rem'}}>
+            <span style={{ fontSize: '3rem', color: '#666' }}>fresh and organic</span>
+            <h3 style={{ fontSize: '5rem', color: '#2c2c54' }}>your daily needy products</h3>
+            <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' onClick={GSHandler}>
+                Get Started
+            </Button>
+        </div>
+    </section>
   )
 }
 

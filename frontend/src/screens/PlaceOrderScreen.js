@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from "../Component.module.css"
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Button, Row, Col, ListGroup, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import Message from '../components/Message'
@@ -54,7 +54,7 @@ const PlaceOrderScreen = () => {
     <>
       <CheckoutSteps step1 step2 step3 step4 />
       <Row >
-        <Col md={8} >
+        <Col md={9}>
             <ListGroup variant='flush' style={{fontSize: '1.8rem'}}>
               <h2 className={styles.heading}>Order Review</h2>
                 <ListGroup.Item>
@@ -110,7 +110,7 @@ const PlaceOrderScreen = () => {
                 </ListGroup.Item>
             </ListGroup>
         </Col>
-        <Col md={4}>
+        <Col md={3} style={{ textAlign: 'center' }}>
           <ListGroup variant='flush' style={{fontSize: '1.8rem'}}>
             <ListGroup.Item>
               <h2 className={styles.heading} style={{color: 'var(--black)'}}>Order Summary</h2>
