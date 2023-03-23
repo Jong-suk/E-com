@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Farmer from './../models/farmerModel.js'
+import Product from './../models/productModel.js'
 
 // @desc    Fetches all farmers
 // @route   GET /api/farmers
@@ -14,7 +15,8 @@ const getFarmers = asyncHandler( async (req, res) => {
 // @route   GET /api/farmers/:id
 // @access  Public
 const getFarmerById = asyncHandler( async (req, res) => {
-    const farmer = await Farmer.findById(req.params.id);
+    const farmer = await Farmer.findById(req.params.id)
+    //.populate('product', 'name image rating numReviews price');
 
     if(farmer) {
         res.json(farmer);
@@ -24,4 +26,18 @@ const getFarmerById = asyncHandler( async (req, res) => {
     }
 })
 
-export { getFarmers, getFarmerById}
+// @desc    Fetches single farmer's product
+// @route   GET /api/farmers/:id
+// @access  Public
+const getFarmerProductsById = asyncHandler( async (req, res) => {
+    const farmerproducts = await Product.find({user: req.params.id});
+
+    if(farmerproducts) {
+        res.json(farmerproducts);
+    } else {
+        res.status(404);
+        throw new Error('Product not found')
+    }
+})
+
+export { getFarmers, getFarmerById, getFarmerProductsById }

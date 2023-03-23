@@ -22,8 +22,10 @@ const ProductScreen = () => {
   const { loading, error, product } = productDetails
 
   useEffect(() => {
-    dispatch(listProductDetails(params.id))
-  }, [dispatch, params])
+    if(!product || product._id !== params.id){
+      dispatch(listProductDetails(params.id))
+    }
+  }, [dispatch, params, product])
 
   const addToCartHandler = () => {
     dispatch(addToCart(product._id, qty))
@@ -32,16 +34,27 @@ const ProductScreen = () => {
 
   return (
   <>
-    <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/'> Go Back </Link>
+    <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/products'> Go Back </Link>
     {loading ? <Loader /> : error ? <Message variant='danger'>Error</Message> : (
       <Row className='py-5'>
-      <Col md={5} >
+      <Col md={4} >
         <Image src={product.image} alt={product.name} style={{alignContent: 'center'}} fluid rounded />
       </Col>
-      <Col md={4} style={{fontSize: '1.8rem'}}>
+      <Col md={5} style={{fontSize: '1.8rem'}} className='px-5'>
         <ListGroup variant='flush'>
           <ListGroup.Item>
-            <h2>{product.name}</h2>
+            <h2 style={{fontSize: '2.2rem', textAlign: 'center'}}>{product.name}</h2>
+            {
+              product.user && product.user.isAdmin && (
+                <strong style={{fontWeight:'bold'}}>Seller: {product.user.name}</strong>
+              )
+            }{
+              product.user && product.user.isFarmer && (
+                <strong style={{fontWeight:'bold'}}>Seller:<Link to={`/farmer/${product.user._id}`}>{product.user.name}</Link> </strong>
+              )
+            }
+            <br/>
+            <strong style={{fontWeight:'bold'}}>Category: {product.category}</strong>
           </ListGroup.Item>
           <ListGroup.Item>
             <Rating

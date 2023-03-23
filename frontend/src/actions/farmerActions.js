@@ -6,6 +6,9 @@ import {
     FARMER_DETAILS_REQUEST,
     FARMER_DETAILS_SUCCESS,
     FARMER_DETAILS_FAIL,
+    FARMER_PRODUCTS_REQUEST,
+    FARMER_PRODUCTS_SUCCESS,
+    FARMER_PRODUCTS_FAIL,
   } from '../constants/farmerConstants'
 
 export const listFarmers = () => async (dispatch) => {
@@ -42,6 +45,27 @@ export const listFarmerDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FARMER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listFarmerProducts = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: FARMER_PRODUCTS_REQUEST })
+
+    const { data } = await axios.get(`/api/farmers/${id}/products`)
+
+    dispatch({
+      type: FARMER_PRODUCTS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: FARMER_PRODUCTS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -46,6 +46,8 @@ const CartScreen = () => {
     }
 
   return (
+    <>
+    <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/products'> Go Back </Link>
     <Row>
       <Col md={8}>
         <h2 className={styles.heading}>Your Shopping Cart</h2>
@@ -89,7 +91,7 @@ const CartScreen = () => {
                     <p style={{fontSize: '2rem'}}>₹ {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
                 </ListGroup.Item>
                 <ListGroup.Item className='d-grid gap-2'>
-                    <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={cartItems.countInStock === 0} onClick={checkOutHandler}>
+                    <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={cartItems.length === 0} onClick={checkOutHandler}>
                         Proceed to checkout
                     </Button>
                 </ListGroup.Item>
@@ -97,6 +99,7 @@ const CartScreen = () => {
         </Card>
       </Col>
     </Row>
+    </>
   )
 }
 

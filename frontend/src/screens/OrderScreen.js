@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import styles from "../Component.module.css"
-import { Row, Col, ListGroup, Image } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from './../components/Loader'
-import { getOrderDetails, payOrder} from './../actions/orderActions'
+import { getOrderDetails, payOrder, deliverOrder } from './../actions/orderActions'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import { ORDER_PAY_RESET } from '../constants/orderConstants'
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
 import { resetCartItems } from './../actions/cartActions';
 
 const OrderScreen = () => {
@@ -24,19 +24,29 @@ const OrderScreen = () => {
   const orderPay = useSelector(state => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
 
+  const orderDeliver = useSelector(state => state.orderDeliver)
+  const { loading: ld, success: sd } = orderDeliver
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
-    if(!order || order._id !== orderId || successPay){
+    if(!order || order._id !== orderId || successPay || sd){
       dispatch({ type: ORDER_PAY_RESET })
+      dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(orderId))
       dispatch(resetCartItems())
     }
-  }, [dispatch, order, orderId, successPay])
+  }, [dispatch, order, orderId, successPay, sd])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
-  };
+  }
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order))
+  }
 
   return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : <>
     <Row >
@@ -163,6 +173,15 @@ const OrderScreen = () => {
                 </ListGroup.Item>
               )}
 
+              {ld && <Loader />}
+              {userInfo && userInfo.isAdmin &&
+                order.isPaid && !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' onClick={deliverHandler}>
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
           </ListGroup>
         </Col>
       </Row>

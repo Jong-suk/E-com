@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Container } from 'react-bootstrap'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
@@ -19,9 +20,13 @@ import PaymentScreen from './screens/PaymentScreen';
 import SubHeader from './components/SubHeader'
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
-import axios from 'axios'
 import UserListScreen from './screens/UserListScreen'
-import UserEditScreen from './screens/UserEditScreen';
+import UserEditScreen from './screens/UserEditScreen'
+import ProductListSrn from './screens/ProductListSrn'
+import ProductEditScreen from './screens/ProductEditScreen'
+import BidScreen from './screens/BidScreen'
+import ProductCreateScreen from './screens/ProductCreateScreen'
+import OrderListScreen from './screens/OrderListScreen'
 
 const App = () => {
   const [clientID, setClientID] = useState('');
@@ -49,6 +54,7 @@ const App = () => {
               <Container>
                 <Routes>
                   <Route path='/' element={<HomeScreen />} exact />
+                  <Route path='/bid' element={<BidScreen />} />
                   <Route path='/products' element={<ProductListScreen />} />
                   <Route path='/product/:id' element={<ProductScreen />} />
                   <Route path='/farmer/:id' element={<FarmerProfileScreen />} />
@@ -63,6 +69,10 @@ const App = () => {
                   <Route path='/order/:id' element={<OrderScreen />} />
                   <Route path='/admin/userlist' element={<UserListScreen />} />
                   <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
+                  <Route path='/admin/productlist' element={<ProductListSrn />} />
+                  <Route path='/admin/product/create' element={<ProductCreateScreen />} />
+                  <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
+                  <Route path='/admin/orderlist' element={<OrderListScreen />} />
                 </Routes>
               </Container>
             </main>

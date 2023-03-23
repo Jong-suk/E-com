@@ -13,13 +13,15 @@ const Product = ({product}) => {
         border: '.1rem solid rgba(0,0,0,.3)',
         borderRadius: '.5rem',
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
+        height: 'auto',
+        width: '100%'
         }}> 
         <Link to={`/product/${product._id}`}>
-          <Card.Img src={product.image} variant='top' className='rounded' style={{ height: '20rem', width: '25rem'}}/> 
+          <Card.Img src={product.image} variant='top' className='rounded' style={{ height: 'auto', width: '100%'}}/> 
         </Link>
 
-        <Card.Body>
+        <Card.Body style={{ alignContent: 'center' }}>
           <Link to={`/product/${product._id}`}>
               <Card.Title as='h3' style={{textTransform: 'uppercase'}}><strong>{product.name}</strong></Card.Title> 
           </Link>

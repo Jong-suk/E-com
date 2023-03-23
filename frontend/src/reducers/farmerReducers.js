@@ -5,6 +5,9 @@ import {
     FARMER_DETAILS_REQUEST,
     FARMER_DETAILS_SUCCESS,
     FARMER_DETAILS_FAIL,
+    FARMER_PRODUCTS_REQUEST,
+    FARMER_PRODUCTS_SUCCESS,
+    FARMER_PRODUCTS_FAIL,
   } from '../constants/farmerConstants'
   
   export const farmerListReducer = (state = { farmers: [] }, action) => {
@@ -33,6 +36,22 @@ import {
           farmer: action.payload
         }
       case FARMER_DETAILS_FAIL:
+        return { loading: false, error: action.payload }
+      default:
+        return state
+    }
+  }
+
+  export const farmerProductListReducer = (state = { products: [] }, action) => {
+    switch (action.type) {
+      case FARMER_PRODUCTS_REQUEST:
+        return { loading: true, products: [] }
+      case FARMER_PRODUCTS_SUCCESS:
+        return {
+          loading: false,
+          products: action.payload
+        }
+      case FARMER_PRODUCTS_FAIL:
         return { loading: false, error: action.payload }
       default:
         return state

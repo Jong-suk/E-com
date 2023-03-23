@@ -35,8 +35,8 @@ const PlaceOrderScreen = () => {
     if(success){
       navigate(`/order/${order._id}`)
     }
-    // eslint-disable-next-line
-  }, [navigate, success])
+    
+  }, [navigate, success, order])
 
   const placeOrderHandler = () => {
     dispatch(createOrder({
@@ -143,12 +143,10 @@ const PlaceOrderScreen = () => {
                 <Col>₹{cart.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
-            
-            <ListGroup.Item>
-              {error && <Message variant='danger'>{error}</Message>}
-            </ListGroup.Item>
 
             <ListGroup.Item className='d-grid gap-2'>
+            {error && <Message variant='danger'>{error}</Message>}
+
                     <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={cart.cartItems.countInStock === 0} onClick={placeOrderHandler}>
                         Place Order
                     </Button>

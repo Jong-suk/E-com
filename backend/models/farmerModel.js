@@ -18,6 +18,11 @@ const reviewSchema = mongoose.Schema({
 })
 
 const farmerSchema = mongoose.Schema({
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Product'
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

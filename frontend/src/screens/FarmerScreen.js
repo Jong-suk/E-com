@@ -30,7 +30,7 @@ const FarmerScreen = () => {
             <Row>
               {farmers &&
               farmers.map(farmer => (
-                  <Col key={farmer._id} sm={12} md={6} lg={4} xl={3} >
+                  <Col key={farmer._id} sm={12} md={6} lg={4} xl={3} className='align-items-stretch d-flex'>
                       <Farmer farmer={farmer} />
                   </Col>
               ))}

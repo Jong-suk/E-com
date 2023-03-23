@@ -13,7 +13,7 @@ const HomeScreen = () => {
   return (
     <section className={styles.home} >
         <div className={styles.image}>
-            <img style={{ height: '50rem', width: '60rem', paddingLeft : '5rem' }} src={process.env.PUBLIC_URL + '/images/home-img.jpg'} alt='' ></img>
+            <img style={{ height: 'auto', width: '100%' }} src={process.env.PUBLIC_URL + '/images/home-img.jpg'} alt='' ></img>
         </div>
         <div className={styles.content} style={{paddingLeft: '5rem'}}>
             <span style={{ fontSize: '3rem', color: '#666' }}>fresh and organic</span>

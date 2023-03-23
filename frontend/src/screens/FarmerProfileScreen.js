@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import styles from "../Component.module.css"
 import { Link, useParams  } from 'react-router-dom'
 import { Row, Col, Image, ListGroup } from 'react-bootstrap'
+import Product from '../components/Product'
 import Rating from './../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
-import { listFarmerDetails } from '../actions/farmerActions';
+import { listFarmerDetails, listFarmerProducts } from '../actions/farmerActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -15,9 +16,14 @@ const FarmerProfileScreen = () => {
   
     const farmerDetails = useSelector((state) => state.farmerDetails)
     const { loading, error, farmer } = farmerDetails
+
+    const farmerProductList = useSelector((state) => state.farmerProductList)
+    const { loading: fpl, error: fpe, products } = farmerProductList
+
   
     useEffect(() => {
       dispatch(listFarmerDetails(params.id))
+      dispatch(listFarmerProducts(params.id))
     }, [dispatch, params])
   
     return (
@@ -26,12 +32,12 @@ const FarmerProfileScreen = () => {
       {loading ? <Loader /> : error ? <Message variant='danger'>Error</Message> : (
         <Row className='py-5'>
         <Col md={5}>
-          <Image src={farmer.image} alt={farmer.name} fluid rounded />
+          <Image src={farmer.image} alt={farmer.name} style={{alignContent: 'center'}} fluid rounded />
         </Col>
-        <Col md={4} style={{textAlign: 'center'}}>
+        <Col md={4} style={{fontSize: '1.8rem'}} className='px-5'>
           <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>{farmer.name}</h2>
+            <ListGroup.Item style={{ textAlign: 'center' }}>
+              <h2 style={{fontSize: '2.2rem'}}>{farmer.name}</h2>
             </ListGroup.Item>
             <ListGroup.Item>
               <h2 style={{textTransform:'lowercase'}}>{farmer.email}</h2>
@@ -46,6 +52,23 @@ const FarmerProfileScreen = () => {
               Description: {farmer.description}
             </ListGroup.Item>
           </ListGroup>
+        </Col>
+        <Col md={3}>
+          <h2 className={styles.heading}>Products Produced</h2>
+          {fpl ? (
+            <Loader> Loading.... </Loader>
+          ) : fpe ? (
+            <Message variant='danger'>{fpe}</Message>
+          ) : (
+              <Row>
+                {products &&
+                products.map(product => (
+                    <Col key={product._id} sm={12} md={6} lg={4} xl={3} >
+                        <Product product={product} />
+                    </Col>
+                ))}
+              </Row>
+          )}
         </Col>
       </Row>
       )}
