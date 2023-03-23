@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import styles from '../Component.module.css'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,13 +28,13 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <h1 className={styles.heading}>Orders</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table striped bordered hover responsive className='table-sm' style={{fontSize: '1.5rem', textAlign: 'center'}}>
           <thead>
             <tr>
               <th>ID</th>
@@ -68,8 +69,8 @@ const OrderListScreen = ({ history }) => {
                 </td>
                 <td>
                   <LinkContainer to={`/order/${order._id}`}>
-                    <Button variant='light' className='btn-sm'>
-                      Details
+                    <Button className={styles.btn0} style={{fontSize: '1.6rem'}} variant='dark'>
+                        Details
                     </Button>
                   </LinkContainer>
                 </td>

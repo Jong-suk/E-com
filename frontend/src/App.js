@@ -24,7 +24,6 @@ import UserListScreen from './screens/UserListScreen'
 import UserEditScreen from './screens/UserEditScreen'
 import ProductListSrn from './screens/ProductListSrn'
 import ProductEditScreen from './screens/ProductEditScreen'
-import BidScreen from './screens/BidScreen'
 import ProductCreateScreen from './screens/ProductCreateScreen'
 import OrderListScreen from './screens/OrderListScreen'
 
@@ -54,7 +53,6 @@ const App = () => {
               <Container>
                 <Routes>
                   <Route path='/' element={<HomeScreen />} exact />
-                  <Route path='/bid' element={<BidScreen />} />
                   <Route path='/products' element={<ProductListScreen />} />
                   <Route path='/product/:id' element={<ProductScreen />} />
                   <Route path='/farmer/:id' element={<FarmerProfileScreen />} />
