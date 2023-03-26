@@ -82,7 +82,15 @@ const PlaceOrderScreen = () => {
                         <Col md={1}></Col>
                         <Col md={3} style={{ textAlign: "center" }}>Item Name</Col>
                         <Col md={6}>
-                          <Col style={{ textAlign: "center" }}>Quantity &ensp;  &ensp; &ensp; Price &ensp; &ensp; &ensp; &ensp; &ensp; Total</Col>
+                          <Col style={{ textAlign: "center" }}>
+                            <Row>
+                              <Col>Quantity</Col>
+                              <Col></Col>
+                              <Col>Price</Col>
+                              <Col></Col>
+                              <Col>Total</Col>
+                            </Row>
+                          </Col>
                         </Col>
                       </Row>
                       {cart.cartItems.map((item, index) => {
@@ -99,7 +107,13 @@ const PlaceOrderScreen = () => {
                                 </Link>
                               </Col>
                               <Col md={6} style={{ textAlign: "center" }}>
-                                &ensp; {item.qty} &ensp; &ensp; x &ensp; &ensp; ₹{item.price} &ensp; &ensp; = &ensp; &ensp; ₹{item.qty * item.price}
+                                <Row>
+                                  <Col>{item.qty}</Col>
+                                  <Col>x</Col>
+                                  <Col>₹{item.price}</Col>
+                                  <Col>=</Col>
+                                  <Col>₹{item.qty * item.price}</Col>
+                                </Row>
                               </Col>
                             </Row>
                           </ListGroup.Item>

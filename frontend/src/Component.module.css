@@ -188,3 +188,14 @@ z-index: 10000;
 .content{
   flex:1 1 40rem;
 }
+
+.searchboxcontainer{
+  display: flex;
+  height: 100%;
+  width: 35%;
+  padding: .05rem;
+  color:#333;
+  border: .1rem solid rgb(0, 0, 0);
+  border-radius: .5rem;
+  text-transform: none;
+}

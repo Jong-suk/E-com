@@ -37,4 +37,14 @@ const admin = (req, res, next) => {
     }
 }
 
-export { protect, admin }
+const farmer = (req, res, next) => {
+    if(req.user && req.user.isFarmer){
+        next()
+    }
+    else{
+        res.status(401)
+        throw new Error('Not Authorized User, Farmers Only!!!')
+    }
+}
+
+export { protect, admin, farmer }

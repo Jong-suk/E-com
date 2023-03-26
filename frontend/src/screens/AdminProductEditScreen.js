@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import Loader from './../components/Loader'
 import FormContainer from './../components/FormContainer'
-import { listProductDetails, updateProduct } from './../actions/productActions'
+import { listProductDetails, adminUpdateProduct } from './../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from './../constants/productConstants';
 
-const ProductEditScreen = () => {
+const AdminProductEditScreen = () => {
     const params = useParams()
     const productId = params.id
 
@@ -42,7 +42,7 @@ const ProductEditScreen = () => {
         else{
             if (spu) {
                 dispatch({ type: PRODUCT_UPDATE_RESET })
-                navigate('/farmer/productlist')
+                navigate('/admin/productlist')
               } 
             else {
                 if(!product.name || product._id !== productId){
@@ -57,7 +57,7 @@ const ProductEditScreen = () => {
                     setCountInStock(product.countInStock)
                 }
             }
-        } 
+        }
     }, [dispatch, userInfo, product, productId, spu, navigate])
 
     const uploadFileHandler = async (e) => {
@@ -86,7 +86,7 @@ const ProductEditScreen = () => {
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(
-            updateProduct({
+            adminUpdateProduct({
               _id: productId,
               name,
               image,
@@ -100,7 +100,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
-        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/farmer/productlist'> Go Back </Link>
+        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/admin/productlist'> Go Back </Link>
         <FormContainer>
             <h1 className={styles.heading}>Edit Product</h1>
             {lpu && <Loader />}
@@ -191,4 +191,4 @@ const ProductEditScreen = () => {
   )
 }
 
-export default ProductEditScreen
+export default AdminProductEditScreen

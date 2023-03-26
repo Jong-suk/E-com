@@ -2,7 +2,7 @@ const farmers = [
     {
       name: 'Farmer User',
       image: '/images/farmer.jpg',
-      email: 'farmer@gamil.com',
+      email: 'farmer@example.com',
       description: 'Farmer',
       rating: 4.5,
       numReviews: 12,

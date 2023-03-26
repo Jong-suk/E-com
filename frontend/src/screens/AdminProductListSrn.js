@@ -5,11 +5,11 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import Loader from './../components/Loader'
-import { listProducts } from '../actions/productActions'
+import { listProducts, deleteProducts } from '../actions/productActions'
 import { useNavigate } from 'react-router-dom';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
-const ProductListSrn = () => {
+const AdminProductListSrn = () => {
     const dispatch = useDispatch()
 
     const navigate = useNavigate() 
@@ -20,41 +20,53 @@ const ProductListSrn = () => {
     const productCreate = useSelector(state => state.productCreate)
     const { loading: lpc, error: epc, success: spc, product: createdProduct } = productCreate
 
+    const productDelete = useSelector(state => state.productDelete)
+    const { loading: lpd, error: epd, success: spd } = productDelete
+
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
     useEffect(() => {
-        if (!userInfo){
+        if (!userInfo) {
             navigate('/login')
         }
         else{
             dispatch({ type: PRODUCT_CREATE_RESET })
 
-            if(!userInfo.isFarmer){
+            if(!userInfo.isAdmin){
                 navigate('/login')
             }
 
             if(spc){
-                navigate(`/farmer/product/${createdProduct._id}/edit`)
+                navigate(`/admin/product/${createdProduct._id}/edit`)
             }
             else{
                 dispatch(listProducts())
             }
         }
-    }, [dispatch, navigate, userInfo, spc, createdProduct])
+        
+    }, [dispatch, navigate, userInfo, spd, spc, createdProduct])
+
+    const deleteHandler = (id) => {
+        if(window.confirm('Are you sure you want to delete')){
+            dispatch(deleteProducts(id))
+        }
+    }
 
   return (
     <>
         <Row style={{textAlign: 'center'}}>
             <Col><h1 className={styles.heading}>Products</h1></Col>
             <Col className='text-right'>
-                <LinkContainer to={`/farmer/product/create`} style={{fontSize: '1.6rem'}}>
+                <LinkContainer to={`/admin/product/create`} style={{fontSize: '1.6rem'}}>
                     <Button className={styles.btn} type='button'>
                     <i className='fas fa-plus'></i> Create Product
                     </Button>
                 </LinkContainer>
             </Col>
         </Row>
+        {lpd && <Loader />}
+        {epd && <Message variant='danger'>{epd}</Message>}
         {lpc && <Loader />}
         {epc && <Message variant='danger'>{epc}</Message>}
         {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
@@ -71,7 +83,6 @@ const ProductListSrn = () => {
                 </thead>
                 <tbody>
                     {products.map(product =>(
-                        product.user._id === userInfo._id && (
                             <tr key={product._id}>
                                 <td>{product._id}</td>
                                 <td>{product.name}</td>
@@ -79,14 +90,17 @@ const ProductListSrn = () => {
                                 <td>{product.category}</td>
                                 <td>{product.user.name}</td>
                                 <td>
-                                    <LinkContainer to={`/farmer/product/${product._id}/edit`}>
+                                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                         <Button className={styles.btn3}>
                                             <i className='fas fa-edit'></i>
                                         </Button>
                                     </LinkContainer>
+                                    <> </>
+                                    <Button className={styles.btn2} onClick={() => deleteHandler(product._id)}>
+                                        <i className='fas fa-trash'></i> 
+                                    </Button>
                                 </td>
                             </tr>
-                        )
                     ))}
                 </tbody>
             </Table>
@@ -95,4 +109,4 @@ const ProductListSrn = () => {
   )
 }
 
-export default ProductListSrn
+export default AdminProductListSrn

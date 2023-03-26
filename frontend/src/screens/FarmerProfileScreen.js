@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styles from "../Component.module.css"
 import { Link, useParams  } from 'react-router-dom'
 import { Row, Col, Image, ListGroup } from 'react-bootstrap'
-import Product from '../components/Product'
+// import Product from '../components/Product'
 import Rating from './../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
 import { listFarmerDetails, listFarmerProducts } from '../actions/farmerActions';
@@ -17,8 +17,8 @@ const FarmerProfileScreen = () => {
     const farmerDetails = useSelector((state) => state.farmerDetails)
     const { loading, error, farmer } = farmerDetails
 
-    const farmerProductList = useSelector((state) => state.farmerProductList)
-    const { loading: fpl, error: fpe, products } = farmerProductList
+    // const farmerProductList = useSelector((state) => state.farmerProductList)
+    // const { loading: fpl, error: fpe, products } = farmerProductList
 
   
     useEffect(() => {
@@ -29,7 +29,7 @@ const FarmerProfileScreen = () => {
     return (
     <>
       <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/farmers'> Go Back </Link>
-      {loading ? <Loader /> : error ? <Message variant='danger'>Error</Message> : (
+      {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
         <Row className='py-5'>
         <Col md={5}>
           <Image src={farmer.image} alt={farmer.name} style={{alignContent: 'center'}} fluid rounded />
@@ -53,7 +53,7 @@ const FarmerProfileScreen = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col md={3}>
+        {/* <Col md={3}>
           <h2 className={styles.heading}>Products Produced</h2>
           {fpl ? (
             <Loader> Loading.... </Loader>
@@ -63,13 +63,15 @@ const FarmerProfileScreen = () => {
               <Row>
                 {products &&
                 products.map(product => (
+                  product.user._id === farmer._id && (
                     <Col key={product._id} sm={12} md={6} lg={4} xl={3} >
                         <Product product={product} />
                     </Col>
+                  )
                 ))}
               </Row>
           )}
-        </Col>
+        </Col> */}
       </Row>
       )}
     </>

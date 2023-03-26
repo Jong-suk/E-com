@@ -6,24 +6,28 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
+import { useParams } from 'react-router-dom'
 
 const ProductListScreen = () => {
   const dispatch = useDispatch()
+  const params = useParams()
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
 
+  const keyword = params.keyword
+
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword])
 
 
 
   return (
     <>
-      <h2 className={styles.heading}>Latest Products</h2>
+      <h1 className={styles.heading}>Products</h1>
       {loading ? (
-        <Loader> Loading.... </Loader>
+        <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (

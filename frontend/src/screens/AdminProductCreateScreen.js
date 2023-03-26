@@ -1,19 +1,16 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import styles from '../Component.module.css'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import Loader from './../components/Loader'
 import FormContainer from './../components/FormContainer'
-import { listProductDetails, updateProduct } from './../actions/productActions'
-import { PRODUCT_UPDATE_RESET } from './../constants/productConstants';
+import { adminCreateProduct } from './../actions/productActions'
+import { PRODUCT_CREATE_RESET } from './../constants/productConstants';
 
-const ProductEditScreen = () => {
-    const params = useParams()
-    const productId = params.id
-
+const AdminProductCreateScreen = () => {
     const [name, setName] = useState('')
     const [image, setImage] = useState('')
     const [description, setDescription] = useState('')
@@ -29,8 +26,8 @@ const ProductEditScreen = () => {
     const productDetails = useSelector((state) => state.productDetails)
     const { loading, error, product } = productDetails
 
-    const productUpdate = useSelector((state) => state.productUpdate)
-    const { loading: lpu, error: epu, success: spu } = productUpdate
+    const productCreate = useSelector((state) => state.productCreate)
+    const { loading: lpc, error: epc, success: spc } = productCreate
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -40,54 +37,41 @@ const ProductEditScreen = () => {
             navigate('/login')
         }
         else{
-            if (spu) {
-                dispatch({ type: PRODUCT_UPDATE_RESET })
-                navigate('/farmer/productlist')
-              } 
-            else {
-                if(!product.name || product._id !== productId){
-                    dispatch(listProductDetails(productId))
-                }
-                else{
-                    setName(product.name)
-                    setImage(product.image)
-                    setDescription(product.description)
-                    setCategory(product.category)
-                    setPrice(product.price)
-                    setCountInStock(product.countInStock)
-                }
+            if(spc){
+                dispatch({ type: PRODUCT_CREATE_RESET })
+                navigate('/admin/productlist')
             }
-        } 
-    }, [dispatch, userInfo, product, productId, spu, navigate])
+        }   
+    }, [dispatch,userInfo, product, navigate, spc])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
         const formData = new FormData()
         formData.append('image', file)
         setUploading(true)
-    
+
         try {
-          const config = {
+            const config = {
             headers: {
-              'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
             },
-          }
-    
-          const { data } = await axios.post('/api/upload', formData, config)
-    
-          setImage(data)
-          setUploading(false)
+            }
+
+            const { data } = await axios.post('/api/upload', formData, config)
+
+            setImage(data)
+            setUploading(false)
         } catch (error) {
-          console.error(error)
-          setUploading(false)
+            console.error(error)
+            setUploading(false)
         }
-      }
+    }
+
 
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(
-            updateProduct({
-              _id: productId,
+            adminCreateProduct({
               name,
               image,
               category,
@@ -100,11 +84,11 @@ const ProductEditScreen = () => {
 
   return (
     <>
-        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/farmer/productlist'> Go Back </Link>
+        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/admin/productlist'> Go Back </Link>
         <FormContainer>
-            <h1 className={styles.heading}>Edit Product</h1>
-            {lpu && <Loader />}
-            {epu && <Message variant='danger'>{epu}</Message>}
+            <h1 className={styles.heading}>Create Product</h1>
+            {lpc && <Loader />}
+            {epc && <Message variant='danger'>{epc}</Message>}
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
                 <Form onSubmit={submitHandler} style={{ fontSize: '1.8rem' }}>
                     <Form.Group controlId='name'>
@@ -183,7 +167,7 @@ const ProductEditScreen = () => {
                         </Form.Control>
                     </Form.Group>
 
-                    <Button type='submit' className={styles.btn} style={{fontSize: '1.6rem'}} variant='dark'>Update</Button>
+                    <Button type='submit' className={styles.btn} style={{fontSize: '1.6rem'}} variant='dark'>Create</Button>
                 </Form>
             )}
         </FormContainer>
@@ -191,4 +175,4 @@ const ProductEditScreen = () => {
   )
 }
 
-export default ProductEditScreen
+export default AdminProductCreateScreen

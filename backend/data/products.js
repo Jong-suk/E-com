@@ -6,8 +6,8 @@ const products = [
     category: 'Fruit',
     price: 20,
     countInStock: 10,
-    rating: 4.5,
-    numReviews: 12,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: 'Tomato',
@@ -16,8 +16,8 @@ const products = [
     category: 'Vegetable',
     price: 20.99,
     countInStock: 7,
-    rating: 4.0,
-    numReviews: 8,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: 'Orange',
@@ -26,8 +26,8 @@ const products = [
     category: 'Fruit',
     price: 50.99,
     countInStock: 5,
-    rating: 4,
-    numReviews: 12,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: 'Rice',
@@ -36,8 +36,8 @@ const products = [
     category: 'Cereal',
     price: 199.99,
     countInStock: 11,
-    rating: 5,
-    numReviews: 12,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: 'Grapes',
@@ -46,8 +46,8 @@ const products = [
     category: 'Fruit',
     price: 25.99,
     countInStock: 7,
-    rating: 4.5,
-    numReviews: 10,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: 'Almonds',
@@ -56,8 +56,8 @@ const products = [
     category: 'Nut',
     price: 29.99,
     countInStock: 0,
-    rating: 4,
-    numReviews: 12,
+    rating: 0,
+    numReviews: 0,
   },
 ]
 

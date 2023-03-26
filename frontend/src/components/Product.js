@@ -21,18 +21,18 @@ const Product = ({product}) => {
           <Card.Img src={product.image} variant='top' className='rounded' style={{ height: 'auto', width: '100%'}}/> 
         </Link>
 
-        <Card.Body style={{ alignContent: 'center' }}>
+        <Card.Body style={{ textAlign: 'center' }}>
           <Link to={`/product/${product._id}`}>
-              <Card.Title as='h3' style={{textTransform: 'uppercase'}}><strong>{product.name}</strong></Card.Title> 
+              <Card.Title as='h1'><strong style={{textTransform: 'uppercase'}}>{product.name}</strong></Card.Title> 
           </Link>
-          <Card.Text as='div' style={{fontSize: '1.2rem'}}>
+          <Card.Text as='h2' style={{fontSize: '1.5rem'}}>
               <Rating 
-                  value={product.rating} 
+                  value={product.rating}
                   text={`${product.numReviews} reviews`}
                   />
           </Card.Text>
-          <Card.Text as='h3'>
-                <bold>Price: ₹{product.price}</bold> 
+          <Card.Text>
+                <h2 style={{ fontSize: '1.5rem', textTransform: 'none' }}>Price: ₹{product.price}/Kg</h2> 
           </Card.Text>
         </Card.Body>
       </Card>

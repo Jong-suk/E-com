@@ -29,13 +29,20 @@ const ProductCreateScreen = () => {
     const productCreate = useSelector((state) => state.productCreate)
     const { loading: lpc, error: epc, success: spc } = productCreate
 
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
     useEffect(() => {
-        if(spc){
-            dispatch({ type: PRODUCT_CREATE_RESET })
-            navigate('/admin/productlist')
+        if (!userInfo) {
+            navigate('/login')
         }
-            
-    }, [dispatch, product, navigate, spc])
+        else{
+            if(spc){
+                dispatch({ type: PRODUCT_CREATE_RESET })
+                navigate('/farmer/productlist')
+            }    
+        }  
+    }, [dispatch, userInfo, product, navigate, spc])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
@@ -77,7 +84,7 @@ const ProductCreateScreen = () => {
 
   return (
     <>
-        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/admin/productlist'> Go Back </Link>
+        <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/farmer/productlist'> Go Back </Link>
         <FormContainer>
             <h1 className={styles.heading}>Create Product</h1>
             {lpc && <Loader />}
