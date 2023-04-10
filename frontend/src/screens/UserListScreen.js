@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styles from '../Component.module.css'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import Loader from './../components/Loader'
@@ -40,7 +40,16 @@ const UserListScreen = () => {
 
   return (
     <>
-        <h1 className={styles.heading}>Users</h1>
+        <Row style={{textAlign: 'center'}}>
+            <Col><h1 className={styles.heading}>Users</h1></Col>
+            <Col className='text-right'>
+                <LinkContainer to={`/admin/user/create`} style={{fontSize: '1.6rem'}}>
+                    <Button className={styles.btn} type='button'>
+                    <i className='fas fa-plus'></i> Create User
+                    </Button>
+                </LinkContainer>
+            </Col>
+        </Row>
         {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
             <Table striped bordered hover responsive className='table-sm' style={{fontSize: '1.5rem', textAlign: 'center'}}>
                 <thead>

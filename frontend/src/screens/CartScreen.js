@@ -4,10 +4,12 @@ import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';    
-import { addToCart, removeFromCart } from './../actions/cartActions';
+import { deleteCartItem, listMyCart, updateCartItem } from './../actions/cartActions';
+import Loader from '../components/Loader';
 
 
 const CartScreen = () => {
+    
     const params = useParams();
     const productId = params.id
 
@@ -18,20 +20,39 @@ const CartScreen = () => {
 
     const navigate = useNavigate() 
 
-    const cart = useSelector((state) => state.cart)
-    const { cartItems } = cart
+    const cartList = useSelector(state => state.cartList)
+    const { loading, success, error, cart } = cartList
+
+    const productDetails = useSelector((state) => state.productDetails)
+    const { product } = productDetails
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
     useEffect(() => {
-        if(productId){
-            dispatch(addToCart(productId, qty))
+        if (!userInfo) {
+            navigate('/login')
         }
-    }, [dispatch, productId, qty])
+        else{
+            dispatch(listMyCart())
+            if(success){
+                dispatch(listMyCart())
+            }
+        }
+    }, [dispatch, navigate, userInfo, success, productId, product, qty])
+
+    const updateCartHandler = (item, qty) =>{
+        dispatch(updateCartItem({
+            product: item,
+            qty: qty
+        }))
+        dispatch(listMyCart())
+    }
 
     const removeFromCartHandler = (id) =>{
-        dispatch(removeFromCart(id))
+        dispatch(deleteCartItem(id))
+        dispatch(listMyCart())
+        window.location.reload()
     }
 
     const checkOutHandler = () =>{
@@ -42,13 +63,15 @@ const CartScreen = () => {
     <>
     {userInfo ? 
         <>
+        {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+            <>
             <Link className={styles.btn} style={{fontSize: '1.6rem'}} to='/products'> Go Back </Link>
             <Row>
             <Col md={8}>
                 <h2 className={styles.heading}>Your Shopping Cart</h2>
-                {cartItems.length === 0 ? <Message>Your Cart is Empty <Link to='/'>Go Back</Link></Message> : (
+                {cart.length === 0 ? <Message>Your Cart is Empty <Link to='/'>Go Back</Link></Message> : (
                     <ListGroup variant='flush' style={{fontSize: '1.8rem'}}>
-                        {cartItems.map(item => (
+                        {cart && cart.map(item => (
                             <ListGroup.Item key={item.product}>
                                 <Row style={{ alignItems: 'center' }}>
                                     <Col md={2}>
@@ -59,7 +82,7 @@ const CartScreen = () => {
                                     </Col>
                                     <Col md={2}>₹ {item.price}/Kg</Col>
                                     <Col md={4}>
-                                        <Form.Control as='select' className='form-select' style={{ borderWidth: '.1rem', borderColor: 'black', fontSize: '1.8rem' }} value={item.qty} onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
+                                        <Form.Control as='select' className='form-select' style={{ borderWidth: '.1rem', borderColor: 'black', fontSize: '1.8rem' }} value={item.qty} onChange={(e) => updateCartHandler(item.product, Number(e.target.value))} >
                                             {[...Array(item.countInStock).keys()].map((x) => (
                                                 <option key={x + 1} value={x + 1}>
                                                 {x + 1}
@@ -82,12 +105,12 @@ const CartScreen = () => {
                 <Card  style={{fontSize: '1.6rem'}}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item style={{ textAlign: 'center' }}>
-                            <h2 className={styles.heading} style={{fontSize: '2.6rem', color: 'var(--black)'}}>SubTotal ({cartItems.reduce((acc, item) => Number(acc) + Number(item.qty), 0)}) items</h2>
+                            <h2 className={styles.heading} style={{fontSize: '2.6rem', color: 'var(--black)'}}>SubTotal ({cart.reduce((acc, item) => Number(acc) + Number(item.qty), 0)}) items</h2>
                         <hr />
                         <Row>     
-                            {cartItems && cartItems.length > 0 && (
+                            {cart && cart.length > 0 && (
                             <div>
-                                {cartItems.map((item, index) => (
+                                {cart.map((item, index) => (
                                 <div key={index}>
                                 <p style={{fontSize: '2rem'}}>
                                 Item-{index+1}: {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
@@ -99,11 +122,11 @@ const CartScreen = () => {
                         </Row>
                         <hr />
                         <Row>
-                            <p style={{fontSize: '2rem'}}>Total: ₹{cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
+                            <p style={{fontSize: '2rem'}}>Total: ₹{cart.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
                         </Row>
                         </ListGroup.Item>
                         <ListGroup.Item className='d-grid gap-2'>
-                            <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={cartItems.length === 0} onClick={checkOutHandler}>
+                            <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={cart.length === 0} onClick={checkOutHandler}>
                                 Proceed to checkout
                             </Button>
                         </ListGroup.Item>
@@ -111,6 +134,8 @@ const CartScreen = () => {
                 </Card>
             </Col>
             </Row>
+            </>
+        )}
         </>
         : (
             navigate('/login')

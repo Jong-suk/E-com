@@ -9,9 +9,10 @@ import {
     productReviewCreateReducer, 
     productReviewDeleteReducer, 
     productReviewUpdateReducer, 
+    productTopRatedReducer, 
     productUpdateReducer 
 } from "./reducers/productReducers";
-import { cartReducer } from "./reducers/cartReducers";
+import { cartAddReducer, cartDeleteReducer, cartListReducer, cartReducer, cartUpdateReducer } from "./reducers/cartReducers";
 import { 
     userLoginReducer, 
     userRegisterReducer, 
@@ -19,7 +20,8 @@ import {
     userUpdateProfileReducer, 
     userListReducer, 
     userDeleteReducer, 
-    userUpdateReducer 
+    userUpdateReducer, 
+    userCreateReducer
 } from "./reducers/userReducers";
 import { farmerListReducer, farmerDetailsReducer, farmerProductListReducer } from "./reducers/farmerReducers";
 import { 
@@ -40,7 +42,12 @@ const reducers = combineReducers({
     productReviewCreate : productReviewCreateReducer,
     productReviewUpdate : productReviewUpdateReducer,
     productReviewDelete : productReviewDeleteReducer,
+    productTopRated: productTopRatedReducer,
     cart : cartReducer,
+    cartAdd : cartAddReducer,
+    cartUpdate : cartUpdateReducer,
+    cartDelete : cartDeleteReducer,
+    cartList : cartListReducer, 
     userLogin : userLoginReducer,
     userRegister : userRegisterReducer,
     userDetails : userDetailsReducer,
@@ -48,6 +55,7 @@ const reducers = combineReducers({
     userList : userListReducer,
     userDelete : userDeleteReducer,
     userUpdate : userUpdateReducer,
+    userCreate : userCreateReducer,
     farmerList : farmerListReducer, 
     farmerDetails : farmerDetailsReducer,
     farmerProductList : farmerProductListReducer,

@@ -18,6 +18,8 @@ router.route('/')
         .get(getProducts)
         .post(protect, farmer, createProduct)
         .put(protect, admin, createProduct)
+        
+router.get('/top', getTopProducts)
 
 router.route('/:id')
         .get(getProductById)
@@ -27,6 +29,5 @@ router.route('/:id')
 
 router.route('/:id/reviews').post(protect, createProductReview).put(protect, updateProductReview).delete(protect, deleteProductReview)
 
-router.get('/top', getTopProducts)
 
 export default router

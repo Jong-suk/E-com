@@ -9,21 +9,28 @@ import { getUserDetails, updateUserProfile } from './../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { listMyOrders } from '../actions/orderActions'
 import { LinkContainer } from 'react-router-bootstrap';
+import axios from 'axios'
 
 const ProfileScreen = () => {
 
   const navigate = useNavigate()
 
   const [name, setName] = useState('')
+  const [image, setImage] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [description, setDescription] = useState(null)
   const [message, setMessage] = useState(null)
+  const [uploading, setUploading] = useState(false)
 
   const dispatch = useDispatch()
  
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
+
+    const farmerDetails = useSelector((state) => state.farmerDetails)
+    const { farmer } = farmerDetails
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -47,9 +54,36 @@ const ProfileScreen = () => {
         else{
             setName(user.name)
             setEmail(user.email)
+            setImage(user.image)
+            if(userInfo.isFarmer){
+                setDescription(farmer.description)
+            }
         }
     }
-  }, [dispatch, navigate, user, userInfo, success])
+  }, [dispatch, navigate, user, farmer, userInfo, success])
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+
+    try {
+        const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        }
+
+        const { data } = await axios.post('/api/upload', formData, config)
+
+        setImage(data)
+        setUploading(false)
+    } catch (error) {
+        console.error(error)
+        setUploading(false)
+    }
+}
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -58,7 +92,12 @@ const ProfileScreen = () => {
         setMessage('Password do not match')
     } 
     else{
-        dispatch(updateUserProfile({ id: user._id, name, email, password }))
+        if(userInfo.isFarmer){
+            dispatch(updateUserProfile({ id: user._id, name, image, email, password, description }))
+        }
+        else{
+            dispatch(updateUserProfile({ id: user._id, name, image, email, password }))
+        }
     }
   }
 
@@ -76,6 +115,27 @@ const ProfileScreen = () => {
                 <Form.Control type='text' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Enter your name' value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
                 </Form.Group>
 
+                <Form.Group controlId='image'>
+                        <Form.Label className='my-1' style={{ fontWeight: 'bold' }}>Image</Form.Label>
+                        <Form.Control 
+                            type='text' 
+                            style={{ borderWidth: 2, fontSize: '1.8rem', textTransform: 'lowercase' }} 
+                            placeholder='Enter image url' 
+                            value={image} 
+                            onChange={(e) => setImage(e.target.value)}>
+                        </Form.Control>
+                        <Form.Control 
+                            className='my-3'
+                            type='file'
+                            id='image-file'
+                            label='Choose File'
+                            style={{ borderWidth: 2, fontSize: '1.8rem' }} 
+                            custom
+                            onChange={uploadFileHandler}>
+                        </Form.Control>
+                        {uploading && <Loader />}
+                    </Form.Group>
+
                 <Form.Group controlId='email'>
                 <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Email Address</Form.Label>
                 <Form.Control type='email' style={{ borderWidth: 2, textTransform: 'lowercase', fontSize: '1.8rem' }} placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
@@ -90,6 +150,11 @@ const ProfileScreen = () => {
                 <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Confirm Password</Form.Label>
                 <Form.Control type='password' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                 </Form.Group>
+
+                {userInfo.isFarmer && <Form.Group controlId='description'>
+                <Form.Label className='my-3' style={{ fontWeight: 'bold' }}>Description</Form.Label>
+                <Form.Control type='description' style={{ borderWidth: 2, fontSize: '1.8rem' }} placeholder='Enter about yourself' value={description} onChange={(e) => setDescription(e.target.value)}></Form.Control>
+                </Form.Group>}
 
                 <Button type='submit' className={styles.btn} style={{fontSize: '1.6rem'}} variant='dark'>Update</Button>
             </Form>

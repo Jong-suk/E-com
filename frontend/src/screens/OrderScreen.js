@@ -126,7 +126,7 @@ const OrderScreen = () => {
         <Col md={3} style={{ textAlign: 'center' }}>
           <ListGroup variant='flush' style={{fontSize: '1.8rem'}}>
             <ListGroup.Item>
-              <h2 className={styles.heading} style={{color: 'var(--black)'}}>Order Summary</h2>
+              <h2 className={styles.heading} style={{color: 'var(--black)'}}>Order Price Summary</h2>
             </ListGroup.Item>
 
             <ListGroup.Item>

@@ -1,10 +1,10 @@
 import express from 'express'
-import { addCartItems, getMyCart } from '../controllers/cartController.js'
+import { addCartItems, deleteCartItem, getMyCart, updateCartItem } from '../controllers/cartController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').post(protect, addCartItems)
-router.route('/mycart').get(protect, getMyCart)
+router.route('/').post(protect, addCartItems).get(protect, getMyCart).put(protect, updateCartItem)
+router.route('/:id').delete(protect, deleteCartItem)
 
 export default router

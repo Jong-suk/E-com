@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails, createProductReview, deleteProductReview, updateProductReview } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { addToCart } from './../actions/cartActions';
+import { createCartItem } from './../actions/cartActions';
 import { PRODUCT_CREATE_REVIEW_RESET, PRODUCT_UPDATE_REVIEW_RESET } from '../constants/productConstants'
 
 const ProductScreen = () => {
@@ -66,8 +66,15 @@ const ProductScreen = () => {
   }, [dispatch, params, userInfo, product, spr, spu, spd, navigate])
 
   const addToCartHandler = () => {
-    dispatch(addToCart(product._id, qty))
-    navigate('/cart')
+    dispatch(createCartItem({
+      product: product._id,
+      name: product.name,
+      image: product.image,
+      price: product.price,
+      countInStock: product.countInStock,
+      qty
+    }))
+    navigate(`/cart`)
   }
 
   const submitHandler = (e) => {
@@ -85,14 +92,14 @@ const ProductScreen = () => {
     e.preventDefault()
     dispatch(updateProductReview(params.id, { rating, comment }))
     dispatch(listProductDetails(params.id))
-    window.location.reload()
+    // window.location.reload()
   }
 
   const removeReviewHandler = () => {
     if(window.confirm('Are you sure you want to delete')){
         dispatch(deleteProductReview(params.id))
         dispatch(listProductDetails(params.id))
-        window.location.reload()
+        // window.location.reload()
       }
 }
 
@@ -176,7 +183,8 @@ const ProductScreen = () => {
             )}
 
             <ListGroup.Item className='d-grid gap-2'>
-              <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={product.countInStock === 0} onClick={addToCartHandler}>
+              <Button className={styles.btn} style={{fontSize: '1.6rem'}} type='button' disabled={product.countInStock === 0} 
+              onClick={() => addToCartHandler()}>
                 Add To Cart
               </Button>
             </ListGroup.Item>

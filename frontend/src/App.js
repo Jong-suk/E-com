@@ -29,6 +29,7 @@ import OrderListScreen from './screens/OrderListScreen'
 import AdminProductListSrn from './screens/AdminProductListSrn'
 import AdminProductCreateScreen from './screens/AdminProductCreateScreen'
 import AdminProductEditScreen from './screens/AdminProductEditScreen'
+import UserCreateScreen from './screens/UserCreateScreen'
 
 const App = () => {
   const [clientID, setClientID] = useState('');
@@ -70,6 +71,7 @@ const App = () => {
                   <Route path='/placeorder' element={<PlaceOrderScreen />} />
                   <Route path='/order/:id' element={<OrderScreen />} />
                   <Route path='/admin/userlist' element={<UserListScreen />} />
+                  <Route path='/admin/user/create' element={<UserCreateScreen />} />
                   <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
                   <Route path='/admin/productlist' element={<AdminProductListSrn />} />
                   <Route path='/admin/product/create' element={<AdminProductCreateScreen />} />

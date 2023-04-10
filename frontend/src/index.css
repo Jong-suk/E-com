@@ -22,3 +22,38 @@ h3{
 .rating span i{
     color: gold;
 }
+
+/* carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  text-align: center;
+  display: flex;
+}
+.carousel-caption {
+  position: absolute;
+  top: 0;
+}
+
+.carousel-caption h2 {
+  color: var(--green);
+  font-size: 3rem;
+}
+
+.carousel img {
+  height: 300px;
+  width: auto;
+  padding: 30px;
+  margin: 40px;
+  border-radius: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.carousel a {
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .carousel-caption h2 {
+    font-size: 2.5vw;
+  }
+}

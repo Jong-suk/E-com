@@ -31,8 +31,8 @@ const Product = ({product}) => {
                   text={`${product.numReviews} reviews`}
                   />
           </Card.Text>
-          <Card.Text>
-                <h2 style={{ fontSize: '1.5rem', textTransform: 'none' }}>Price: ₹{product.price}/Kg</h2> 
+          <Card.Text as='h2'style={{ fontSize: '1.5rem', textTransform: 'none' }}>
+                Price: ₹{product.price}/Kg
           </Card.Text>
         </Card.Body>
       </Card>

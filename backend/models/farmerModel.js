@@ -29,7 +29,7 @@ const farmerSchema = mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -43,17 +43,24 @@ const farmerSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        required: false
     },
+    products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Product',
+        }
+    ],
     reviews: [reviewSchema],
     rating: {
         type: Number,
-        required: true,
+        required: false,
         default: 0
     },
     numReviews: {
         type: Number,
-        required: true,
+        required: false,
         default: 0
     }
 }, {

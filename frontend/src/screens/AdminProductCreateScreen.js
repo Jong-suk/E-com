@@ -42,7 +42,7 @@ const AdminProductCreateScreen = () => {
                 navigate('/admin/productlist')
             }
         }   
-    }, [dispatch,userInfo, product, navigate, spc])
+    }, [dispatch, userInfo, product, navigate, spc])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]

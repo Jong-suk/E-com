@@ -9,6 +9,7 @@ import User from './models/userModel.js'
 import Product from './models/productModel.js'
 import Order from './models/orderModel.js'
 import connectDB from './config/db.js'
+import CartItem from './models/cartModel.js'
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ const importData = async () => {
     await Product.deleteMany()
     await User.deleteMany()
     await Farmer.deleteMany()
+    await CartItem.deleteMany()
 
     const createdUsers = await User.insertMany(users)
 
@@ -31,8 +33,11 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts)
 
-    const sampleFarmers = farmers.map((farmer) => {
-      return { ...farmer, user: adminUser }
+    const sampleFarmers = []
+    createdUsers.map((farmers) => {
+      if(farmers.isFarmer){
+        sampleFarmers.push({ name: farmers.name, email: farmers.email, user: adminUser })
+      }
     })
 
     await Farmer.insertMany(sampleFarmers)
@@ -51,6 +56,7 @@ const destroyData = async () => {
     await Product.deleteMany()
     await Farmer.deleteMany()
     await User.deleteMany()
+    await CartItem.deleteMany()
 
     console.log('Data Destroyed!'.red.inverse)
     process.exit()

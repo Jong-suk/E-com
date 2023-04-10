@@ -59,6 +59,8 @@ export const listFarmerProducts = (id) => async (dispatch) => {
 
     const { data } = await axios.get(`/api/farmers/${id}/products`)
 
+    console.log(data)
+
     dispatch({
       type: FARMER_PRODUCTS_SUCCESS,
       payload: data,

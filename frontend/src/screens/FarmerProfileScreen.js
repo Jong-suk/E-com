@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styles from "../Component.module.css"
 import { Link, useParams  } from 'react-router-dom'
 import { Row, Col, Image, ListGroup } from 'react-bootstrap'
-// import Product from '../components/Product'
+import Product from '../components/Product'
 import Rating from './../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
 import { listFarmerDetails, listFarmerProducts } from '../actions/farmerActions';
@@ -17,8 +17,8 @@ const FarmerProfileScreen = () => {
     const farmerDetails = useSelector((state) => state.farmerDetails)
     const { loading, error, farmer } = farmerDetails
 
-    // const farmerProductList = useSelector((state) => state.farmerProductList)
-    // const { loading: fpl, error: fpe, products } = farmerProductList
+    const farmerProductList = useSelector((state) => state.farmerProductList)
+    const { loading: fpl, error: fpe, products } = farmerProductList
 
   
     useEffect(() => {
@@ -34,7 +34,7 @@ const FarmerProfileScreen = () => {
         <Col md={5}>
           <Image src={farmer.image} alt={farmer.name} style={{alignContent: 'center'}} fluid rounded />
         </Col>
-        <Col md={4} style={{fontSize: '1.8rem'}} className='px-5'>
+        <Col md={3} style={{fontSize: '1.8rem'}} className='px-5'>
           <ListGroup variant='flush'>
             <ListGroup.Item style={{ textAlign: 'center' }}>
               <h2 style={{fontSize: '2.2rem'}}>{farmer.name}</h2>
@@ -53,7 +53,7 @@ const FarmerProfileScreen = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        {/* <Col md={3}>
+        <Col md={4}>
           <h2 className={styles.heading}>Products Produced</h2>
           {fpl ? (
             <Loader> Loading.... </Loader>
@@ -61,17 +61,16 @@ const FarmerProfileScreen = () => {
             <Message variant='danger'>{fpe}</Message>
           ) : (
               <Row>
+              {console.log(products)}
                 {products &&
                 products.map(product => (
-                  product.user._id === farmer._id && (
-                    <Col key={product._id} sm={12} md={6} lg={4} xl={3} >
+                    <Col key={product._id}>
                         <Product product={product} />
                     </Col>
-                  )
                 ))}
               </Row>
           )}
-        </Col> */}
+        </Col>
       </Row>
       )}
     </>

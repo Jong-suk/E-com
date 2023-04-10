@@ -7,6 +7,8 @@ import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
 import { useParams } from 'react-router-dom'
+import ProductCarousel from '../components/ProductCarousel';
+import Recommendations from '../components/Recommendations'
 
 const ProductListScreen = () => {
   const dispatch = useDispatch()
@@ -20,11 +22,11 @@ const ProductListScreen = () => {
   useEffect(() => {
     dispatch(listProducts(keyword))
   }, [dispatch, keyword])
-
-
-
+  
   return (
     <>
+      {!keyword && <ProductCarousel />}
+      {!keyword && <Recommendations />}
       <h1 className={styles.heading}>Products</h1>
       {loading ? (
         <Loader />

@@ -6,6 +6,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+        required: false
+    },
     email: {
         type: String,
         required: true,
@@ -15,6 +19,20 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    searchHistory: [{
+        _id: {
+            type: mongoose.Schema.Types.ObjectId,
+            default: mongoose.Types.ObjectId,
+          },
+        query: String,
+        results: [{
+          product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+          },
+          score: Number,
+        }],
+    }],
     isAdmin: {
         type: Boolean,
         required: true,

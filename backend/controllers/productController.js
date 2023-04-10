@@ -1,5 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import User from './../models/userModel.js'
+import Farmer from '../models/farmerModel.js'
 
 // @desc    Fetches all products
 // @route   GET /api/products
@@ -45,8 +47,18 @@ const createProduct = asyncHandler( async (req, res) => {
       price: price,
       countInStock: countInStock,
   })
-
   const createdProduct = await product.save()
+
+  const user = await User.findById(req.user._id)
+  if(user.isFarmer){
+    const product = await Product.findById(createdProduct._id)
+    await Farmer.findOneAndUpdate(
+      { email: user.email },
+      { $push: {products: [product]} },
+      { new: true }
+    )
+  }
+
   res.status(201).json(createdProduct)
 })
 
@@ -67,6 +79,16 @@ const updateProduct = asyncHandler( async (req, res) => {
       product.countInStock = countInStock
 
       const updatedProduct = await product.save()
+
+      const user = await User.findById(req.user._id)
+      if(user.isFarmer){
+        const product = await Product.findById(updatedProduct._id)
+        await Farmer.findOneAndUpdate(
+          { email: user.email },
+          { $push: {products: [product]} },
+          { new: true }
+        )
+      }
       res.json(updatedProduct)
   }
   else{
@@ -82,6 +104,29 @@ const deleteProduct = asyncHandler( async (req, res) => {
   const product = await Product.findById(req.params.id)
 
   if(product) {
+    const user = await User.findById(req.user._id)
+    if(user){
+      const usersWithProductInSearchHistory = await User.find({ 'searchHistory.results.product': req.params.id });
+      // Loop through each user document and delete the matching search history entry
+      for (const user of usersWithProductInSearchHistory) {
+        const searchHistoryEntryIndex = user.searchHistory.findIndex(entry => entry.results.some(result => result.product.equals(req.params.id)));
+        if (searchHistoryEntryIndex >= 0) {
+          const searchHistoryId = user.searchHistory[searchHistoryEntryIndex]._id;
+          await User.findOneAndUpdate(
+            { _id: user._id },
+            { $pull: { 'searchHistory': { _id: searchHistoryId } } }
+          );
+        }
+      }
+    }
+    if(user.isFarmer){
+      const product = await Product.findById(req.params.id)
+      await Farmer.findOneAndUpdate(
+        { email: user.email },
+        { $pull: {products: [product]} },
+        { new: true }
+        )
+      }
       await product.remove()
       res.json({ message: 'Product Removed' });
   } else {
