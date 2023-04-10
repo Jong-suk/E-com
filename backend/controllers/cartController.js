@@ -65,6 +65,14 @@ const deleteCartItem = asyncHandler( async (req, res) => {
     }
 })
 
+// @desc    Delete whole cart
+// @route   DELETE /api/cart
+// @access  Private
+const deleteCart = asyncHandler( async (req, res) => {
+    await CartItem.deleteMany()
+    res.json({ message: 'Cart Deleted' });
+})
+
 // @desc    get logged in user cartitems
 // @route   GET /api/cart/mycart
 // @access  Private
@@ -73,4 +81,4 @@ const getMyCart = asyncHandler(async (req, res) => {
     res.json(cartItems)
 })
 
-export { addCartItems, updateCartItem, deleteCartItem, getMyCart }
+export { addCartItems, updateCartItem, deleteCartItem, deleteCart, getMyCart }

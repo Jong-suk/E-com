@@ -64,11 +64,20 @@ export const savePaymentMethod = (data) => (dispatch) => {
     localStorage.setItem('paymentMethod', JSON.stringify(data))
 }
 
-export const resetCartItems = () => (dispatch) => {
+export const resetCartItems = () => async(dispatch, getState) => {
     localStorage.removeItem('cartItems')
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
     dispatch({ type: CART_ITEM_RESET })
+    const { userLogin : { userInfo } } = getState()
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`
+        }
+    }
+
+    await axios.delete(`/api/cart`, config)
 }
 
 export const createCartItem = (cartItem) => async(dispatch, getState) => {
